@@ -1,0 +1,22 @@
+from google.colab import files 
+upload = files.upload() 
+import pandas as pd
+import numpy as np
+train=pd.read_csv('Titanic_train.csv')
+test=pd.read_csv('Titanic_test.csv')
+train.columns
+test.columns
+print(test.isnull().any()) #any如果全為空，0，False，則返回False；如果不全為空，則返回True，所以需要isnull()判斷
+print(test.isnull().any().sum())
+dataap=train.append(test)
+dataap.to_csv('dataap.csv') 
+files.download('dataap.csv')
+print(dataap.info())
+print('cabin 遺失個數=',dataap['Cabin'].isnull().sum())
+print(dataap['Cabin'].value_counts())
+#dataap['Cabin'].head(10)
+dataap["Cabin"] = data['Cabin'].apply(lambda x : str(x)[0] if not pd.isnull(x) else 'NoCabin')
+dataap["Cabin"].unique()
+import seaborn as sns
+sns.countplot(data['Cabin'], hue=data['Survived'])
+data[['Cabin', 'Survived']].groupby(['Cabin'], as_index=False).mean().sort_values(by='Survived', ascending=False)
